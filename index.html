@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tomatina Clicker</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="wrap">
+        <canvas id="game"></canvas>
+
+        <div class="hud" aria-hidden="true">
+            <div class="topbar">
+                <div class="badge">Score: <strong id="scoreVal">0</strong></div>
+                <div class="badge">Misses: <strong id="missVal">0</strong> / 10</div>
+                <div class="pill">Click tomatoes before they splat!</div>
+            </div>
+
+            <!-- Start artwork overlay -->
+            <div class="start-art" id="startArt" style="display:block">
+                <img src="./asset/La_Tomatina_2025_01.png" alt="La Tomatina Start" />
+            </div>
+
+            <div class="toast" id="centerToast" style="display:none">
+                <div class="title" id="toastTitle">Tomatina Clicker</div>
+                <div class="subtitle" id="toastSubtitle">Click to start</div>
+            </div>
+
+            <div class="controls">
+                <button class="btn" id="startBtn">Start</button>
+                <button class="btn" id="restartBtn" disabled>Restart</button>
+            </div>
+
+            <div class="credit">Happy Tomatina! 🍅</div>
+        </div>
+    </div>
+
+    <!-- Prefer mp3/wav for Safari -->
+    <audio id="hitSound" preload="auto">
+        <source src="./asset/hit.mp3" type="audio/mpeg" />
+    </audio>
+    <audio id="laughSound" preload="auto">
+        <source src="./asset/evil-laugh.mp3" type="audio/mpeg" />
+    </audio>
+    <audio id="splatSound" preload="auto">
+        <source src="./asset/cartoon-splat.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script type="module">
+        import { initSound } from './js/sound.js';
+        import { bootGame } from './js/game.js';
+
+        const hitEl = document.getElementById('hitSound');
+        const laughEl = document.getElementById('laughSound');
+        const splatEl = document.getElementById('splatSound');
+        const sound = initSound(hitEl);
+        const gameOverSound = initSound(laughEl);
+        const missSound = initSound(splatEl);
+
+        // Boot the game with injected dependencies (sound player)
+        bootGame({ sound, gameOverSound, missSound });
+    </script>
+</body>
+
+</html>
